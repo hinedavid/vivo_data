@@ -1,7 +1,13 @@
-@extends('layouts.app')
-
+@extends('layouts.main')
+@section('title', 'Fresh&Deli')
 @section('content')
-<div class="container">
+
+@component('layouts.menu')
+@slot ('data')
+<br>David!
+@endslot
+@endcomponent
+<div class="Canvas-container-center ">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
