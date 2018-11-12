@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::resource('lote','LoteController');
+
 Route::get('hine', function() {
       return "Hola desde Hine";
 });
