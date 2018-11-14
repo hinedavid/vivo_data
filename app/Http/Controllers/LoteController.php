@@ -35,9 +35,11 @@ class LoteController extends Controller
     public function store(LoteFormRequest $request)
     {
         $lote = new Lote;
-        $lote->fecha=$request-get('date');
-        $lote->numero_lote=$request-get('numero_lote');
-        $lote->cantidad=$request-get('cantidad');
+        $lote->date=$request->get('date');
+        $lote->numero_lote=$request->get('numero_lote');
+        $lote->cantidad=$request->get('cantidad');
+        $lote->proveedor_id=$request->get('proveedor');
+        $lote->producto_idproducto=$request->get('producto');
         $lote->save();
         
     }
@@ -52,9 +54,10 @@ class LoteController extends Controller
     public function update(LoteFormRequest $request,$id)
     {
         $lote=Lote::findOrFail($id);
-        $lote->fecha=$request-get('date');
-        $lote->numero_lote=$request-get('numero_lote');
-        $lote->cantidad=$request-get('cantidad');
+        $lote->fecha=$request->get('date');
+        $lote->numero_lote=$request->get('numero_lote');
+        $lote->cantidad=$request->get('cantidad');
+        $lote->producto_idproducto=$request->get('producto');
         $lote->update();
         return Redirect::to('lote');
     }

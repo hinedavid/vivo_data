@@ -20,8 +20,22 @@
 			{!!Form::open(array('url'=>'lote','method'=>'POST','autocomplete'=>'off'))!!}
             {{Form::token()}}
             <div class="form-group">
-            	<label for="nombre">Fecha</label>
+            	<label for="date">Fecha</label>
             	<input type="text" name="date" class="form-control" placeholder="Fecha...">
+            </div>
+            <div class="form-group">
+            	<label for="proveedor">Proveedor</label>
+            	<input type="text" name="proveedor" class="form-control" placeholder="Fecha...">
+            </div>
+            
+            </div>
+            <div class="form-group">
+            	<label for="producto">Producto</label>
+            	<input type="text" name="producto" class="form-control" placeholder="Fecha...">
+            </div>
+            <div class="form-group">
+            	<label for="cantidad">Cantidad</label>
+            	<input type="text" name="cantidad" class="form-control" placeholder="Fecha...">
             </div>
             <div class="form-group">
             	<label for="descripcion">Lote</label>
