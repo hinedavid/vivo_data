@@ -32,7 +32,3 @@
   </nav>
 </div>
 
-<div class="">
-  menú
-</div>
-
