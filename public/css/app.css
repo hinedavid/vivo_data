@@ -20,7 +20,14 @@ html, body {
   height: 50px;
 }
 
-.Login-button {
+.fd-input {
+  background-color: #FFFFFF;
+  border: 1px solid #8492A6;
+  border-radius: 5px;
+  height: 50px;
+}
+
+.Login-button, .fd-button {
   background-color: #47525E;
   border-radius: 5px;
   width: 190px;
@@ -81,4 +88,50 @@ html, body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+/****/
+.navbar {
+  background-color: #E5E9F2 !important;
+  color: #47525E;
+  font-size: 18px;
+  font-weight: 400;
+}
+.nav-link {
+  padding: 2rem 1rem !important;
+}
+
+.menu-container{
+  background-color: #E5E9F2 !important;
+  height: 22%;
+  padding: 10px;
+  padding-right: 6%;
+}
+.main-content{
+    background-color: #E5E9F2 !important;
+    min-height: 78%;
+}
+
+#img-center{
+    position: absolute;
+    background-color: #E5E9F2 !important;
+    top: 22%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+/***/
+.datepicker{
+  background-color: rgba(250, 253, 252, 0);
+ border: 1px solid #8492A6;
+ border-radius: 6px;
+
+}
+
+.datepicker th{
+  border-bottom: 1px solid #8492A6;
+}
+
+.table {
+    background-color: white !important;
 }

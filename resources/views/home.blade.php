@@ -1,29 +1,15 @@
 @extends('layouts.main')
 @section('title', 'Fresh&Deli')
-@section('content')
-
+@section('menu')
 @component('layouts.menu')
-@slot ('data')
-<br>David!
-@endslot
 @endcomponent
-<div class="Canvas-container-center ">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
+@endsection
+@section('content')
+<div class="main-content">
+  <div class="container">
+    <div class="img-center">
+       <img id="img-center" src="{{ asset('img')}}/blob.png" class="img-fluid" alt="Responsive image">
     </div>
+  </div>
 </div>
 @endsection
