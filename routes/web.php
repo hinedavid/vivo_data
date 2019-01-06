@@ -25,4 +25,21 @@ Route::get('hine', function() {
       return "Hola desde Hine";
 });
 
+Route::get('/registered', function() {
+      return view ('lote.registered');
+});
+
+Route::get('/delivery', function() {
+      return view ('lote.register_delivery');
+});
+
+Route::get('/report', function() {
+      return view ('lote.reports');
+});
+
+Route::get('/consultreport', function() {
+      return view ('lote.report_details');
+});
+
+
 
