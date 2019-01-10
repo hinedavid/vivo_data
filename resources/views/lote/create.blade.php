@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('title', 'Fresh&Deli')
+
 @section('extracss')
 <link href="{{ asset('css/bootstrap-datepicker.standalone.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
