@@ -27,6 +27,10 @@ html, body {
   height: 50px;
 }
 
+.fd-control{
+  height: 50px!important;
+}
+
 .Login-button, .fd-button {
   background-color: #47525E;
   border-radius: 5px;

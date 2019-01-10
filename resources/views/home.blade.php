@@ -8,7 +8,7 @@
 <div class="main-content">
   <div class="container">
     <div class="img-center">
-       <img id="img-center" src="{{ asset('img')}}/blob.png" class="img-fluid" alt="Responsive image">
+       <img id="img-center" src="{{ asset('img')}}/blob.png" style="height:65%" class="img-fluid" alt="Responsive image">
     </div>
   </div>
 </div>

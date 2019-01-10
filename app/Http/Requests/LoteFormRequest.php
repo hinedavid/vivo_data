@@ -24,8 +24,10 @@ class LoteFormRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-            'proveedor' =>'required|max:200'
+            'date' =>'required',
+            'lote' =>'required|max:50',
+            'cantidad' =>'required|max:50',
+            'proveedor' =>'required'
         ];
     }
 }
