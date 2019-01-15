@@ -21,6 +21,8 @@ class CreateEntregasTable extends Migration
             $table->foreign('lote_id')->references('idlote')->on('lotes');
             $table->integer('producto_id')->unsigned();
             $table->foreign('producto_id')->references('idproducto')->on('productos');
+            $table->integer('miembro_id')->unsigned();
+            $table->foreign('miembro_id')->references('idmiembro')->on('miembros');
             $table->timestamps();
         });
     }

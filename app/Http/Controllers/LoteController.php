@@ -7,9 +7,11 @@ use App\Http\Requests;
 use App\Lote;
 use App\Proveedor;
 use App\Producto;
+use App\Entrega;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\LoteFormRequest;
 use DB;
+
 
 class LoteController extends Controller
 {
@@ -51,6 +53,7 @@ class LoteController extends Controller
         $lote->cantidad=$request->get('cantidad');
         $lote->proveedor_id=$request->get('proveedor');
         $lote->producto_id=$request->get('producto');
+        $lote->esta_disponible=1;
         $lote->save();
         return redirect()->route('lote.create')->with(['type'=>'success','status'=>'Se guardó exitosamente el lote: '.$lote->numero_lote]);
 
@@ -66,7 +69,7 @@ class LoteController extends Controller
     public function update(LoteFormRequest $request,$id)
     {
         $lote=Lote::findOrFail($id);
-        $lote->fecha=$request->get('date');
+        $lote->fecha= $request->get('date');
         $lote->numero_lote=$request->get('numero_lote');
         $lote->cantidad=$request->get('cantidad');
         $lote->producto_idproducto=$request->get('producto');
@@ -113,4 +116,65 @@ class LoteController extends Controller
         return  $output;
       }
     }
+
+    public function RealizarEntrega ()
+    {
+      $proveedores= DB::table('proveedores')
+            ->select('proveedores.idproveedor  as idproveedor', 'proveedores.nombre as nombre')
+            ->join('lotes', 'lotes.proveedor_id', '=', 'proveedores.idproveedor')
+            ->where('lotes.esta_disponible', 1)
+            ->groupby('proveedores.idproveedor','proveedores.nombre')
+            ->distinct()->get();
+      return view('lote.register_delivery')->with('proveedores', $proveedores);
+    }
+
+    public function ObtenerLotes (Request $request)
+    {
+      //validamos que sea un llamado AJAX
+      if ($request->ajax())
+      {
+        $this->validate($request, [
+            'idproveedor' => 'required',
+        ]);
+        $proveedorID = $request->input('idproveedor');
+        $lotes= Lote::select(['idlote', 'numero_lote'])
+                      ->where('proveedor_id', $proveedorID)
+                      ->where('esta_disponible', 1)
+                      ->get();
+        $output = '<option value="" disabled selected>Número de lote</option>';
+        foreach ($lotes as $lote)
+        {
+          $output .= '<option value="'.$lote->idlote.'">'.$lote->numero_lote.'</option>';
+        }
+        //retornamos el texto para guardarlo en el html
+        return  $output;
+      }
+    }
+
+    public function ObtenerNombreProductoDeLote (Request $request)
+    {
+      //validamos que sea un llamado AJAX
+      if ($request->ajax())
+      {
+        $this->validate($request, [
+            'idlote' => 'required',
+        ]);
+        $loteID = $request->input('idlote');
+
+        $entregas= Entrega::where('lote_id',$loteID)->sum('cantidad');
+
+        $lotes= DB::table('productos')
+              ->select('productos.nombre  as nombre', 'productos.idproducto  as idproducto', 'lotes.cantidad as cantidad', 'productos.medida as medida')
+              ->join('lotes', 'lotes.producto_id', '=', 'productos.idproducto')
+              ->where('lotes.idlote', $loteID)
+              ->first();
+
+        $disponibilidad = $lotes->cantidad - $entregas;
+
+
+        return response()->json(['nombre' => $lotes->nombre,'idproducto' => $lotes->idproducto,'medida'=> $lotes->medida, 'disponible'=>$disponibilidad]);
+      }
+    }
+
+
 }
