@@ -35,6 +35,14 @@ class LoteController extends Controller
         $proveedores = Proveedor::all();
         return view('lote.create')->with('proveedores', $proveedores);
     }
+    
+    public function delivery()
+    {
+        $proveedores = Proveedor::all();
+        
+        return view('lote.delivery')->with('proveedores', $proveedores);
+    }
+    
     public function store(LoteFormRequest $request)
     {
         $numerolote = $request->get('lote');
@@ -59,10 +67,23 @@ class LoteController extends Controller
     {
        return view ("lote.show",["lote"=>Lote::findOrFail($id)]);
     }
+    
+    public function registered($id)
+    {
+      
+      $lote = Lote::where('idlote', $id)->first();
+      $producto = Producto::where('idproducto', $lote->producto_idproducto)->first();
+      $proveedor = Proveedor::where('idproveedor', $lote->proveedor_id)->first();
+      $data = array();
+      array_push($data,$proveedor->nombre,$producto->nombre, $lote->idlote, $lote->date);
+      return view ("lote.registered")->with('lote', $data);
+    } 
+    
     public function edit($id)
     {
        return view ("lote.edit",["lote"=>Lote::findOrFail($id)]);
     }
+    
     public function update(LoteFormRequest $request,$id)
     {
         $lote=Lote::findOrFail($id);
@@ -79,7 +100,7 @@ class LoteController extends Controller
     }
 
 
-    public function ObtenerProducto (Request $request)
+    public function ObtenerProducto(Request $request)
     {
       //validamos que sea un llamado AJAX
       if ($request->ajax())
@@ -99,8 +120,9 @@ class LoteController extends Controller
       }
     }
 
-    public function ObtenerMedidas (Request $request)
+    public function ObtenerMedidas(Request $request)
     {
+    
       if ($request->ajax())
       {
         $this->validate($request, [
