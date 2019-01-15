@@ -17,19 +17,26 @@ Route::get('/', function () {
 
 Auth::routes();
 
-/*** ADMINISTRATIVE ROUTES ***/
-
+/**Administrative routes**/
 Route::get('settings/','AdministrativoController@index')->name('admin.index');
 Route::get('settings/register/provider','AdministrativoController@registrarProveedor')->name('admin.register.provider');
 Route::get('settings/register/products','AdministrativoController@registrarProducto')->name('admin.register.product');
 
 Route::post('settings/store/provider','AdministrativoController@guardarProveedor')->name('admin.store.provider');
 Route::post('settings/store/products','AdministrativoController@guardarProducto')->name('admin.store.product');
+Route::post('settings/store/delivery','AdministrativoController@RegistrarEntrega')->name('create.delivery');
+
 
 Route::post('lote/get/products','LoteController@ObtenerProducto')->name('lote.getproducts');
 Route::post('lote/get/mesures','LoteController@ObtenerMedidas')->name('lote.getmesures');
+Route::post('lote/get/lots','LoteController@ObtenerLotes')->name('lote.getlotes');
 
-/*** END ADMINISTRATIVE ROUTES ***/
+
+Route::post('lote/create/delivery','LoteController@ObtenerNombreProductoDeLote')->name('lote.getproductname');
+
+
+Route::get('lote/get/lotes','LoteController@RealizarEntrega')->name('lote.delivery');
+/*****/
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -43,9 +50,6 @@ Route::get('/registered', function() {
       return view ('lote.registered');
 });
 
-Route::get('/delivery', function() {
-      return view ('lote.register_delivery');
-});
 
 Route::get('/report', function() {
       return view ('lote.reports');
@@ -54,6 +58,3 @@ Route::get('/report', function() {
 Route::get('/consultreport', function() {
       return view ('lote.report_details');
 });
-
-
-

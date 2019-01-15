@@ -67,6 +67,7 @@
                    -->
 								</tbody>
 							</table>
+							{{$stock->links()}}
 						</div>
         @else
           <div class="text-center col-12">

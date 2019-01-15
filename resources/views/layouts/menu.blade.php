@@ -1,4 +1,3 @@
-
 <div class="menu-container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#"></a>
@@ -14,7 +13,7 @@
           <a class="nav-link" href="{{ route('lote.create') }}">Registrar lote</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('/delivery') }}">Registrar entrega</a>
+          <a class="nav-link" href="{{ route('lote.delivery') }}">Registrar entrega</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/report') }}">Reportes</a>
@@ -34,4 +33,3 @@
     </div>
   </nav>
 </div>
-
