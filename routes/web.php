@@ -46,7 +46,7 @@ Route::get('hine', function() {
       return "Hola desde Hine";
 });
 
-Route::get('/registered/{id}', 'LoteController@registered');
+Route::get('/registered/{id}', 'LoteController@registered')->name('registered');
 
 Route::get('/report', 'LoteController@reports' );
 

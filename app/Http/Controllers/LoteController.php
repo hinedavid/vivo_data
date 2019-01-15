@@ -70,7 +70,11 @@ class LoteController extends Controller
         $lote->producto_id=$request->get('producto');
         $lote->esta_disponible=1;
         $lote->save();
-        return redirect()->route('lote.create')->with(['type'=>'success','status'=>'Se guardó exitosamente el lote: '.$lote->numero_lote]);
+        echo $lote->id;
+        //$id = Lote::getPdo()->lastInsertId();
+       // echo $id;
+        
+        return redirect()->route('registered', ['id' => $lote->id]);
 
     }
     public function show($id)
@@ -82,7 +86,7 @@ class LoteController extends Controller
     {
       
       $lote = Lote::where('idlote', $id)->first();
-      $producto = Producto::where('idproducto', $lote->producto_idproducto)->first();
+      $producto = Producto::where('idproducto', $lote->producto_id)->first();
       $proveedor = Proveedor::where('idproveedor', $lote->proveedor_id)->first();
       $data = array();
       array_push($data,$proveedor->nombre,$producto->nombre, $lote->idlote, $lote->date);
@@ -123,18 +127,22 @@ class LoteController extends Controller
            foreach ($lotes as $item){ echo $item->idlote;}
           
            
-          $productos = Producto::select('nombre')->where('idproducto',$lotes->first()->producto_id)->first();
-           echo $productos->nombre;
+        // $productos = Producto::select('nombre')->where('idproducto',$lotes->first()->producto_id)->first();
+        //   echo $productos->nombre;
            
            
-          // $entrega= Entrega::select('loteid','cantidad','fecha','miembro_id')->where('lote_id',$lote->idlote)
-          // ->join('miembros', $entrega->miembro_id, '=', 'miembros.idproveedor');
+          $entregas= DB::table('entregas')
+    ->select('entregas.lote_id','productos.nombre  as nombre', 'entregas.cantidad as CantidadEntregada', 'entregas.fecha as fecha')
+    ->join('lotes', 'lotes.idlote', '=', 'entregas.lote_id')
+    ->join('productos', 'productos.idproducto', '=', 'entregas.producto_id')
+    ->where('entregas.lote_id', $lote)
+    ->get();
+    
+    echo $entregas;
            
         
-         
-           
-           
-          return view('lote.report_details')->with('lote', $lotes);
+          //$request->session()->put('Nombrecookie',$productos->nombre); 
+          return view('lote.report_details')->with('lote', $entregas);
 
         }
     }

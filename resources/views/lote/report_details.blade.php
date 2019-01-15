@@ -36,16 +36,18 @@
 									</tr>
 								</thead>
 								<tbody>
-								@if (count($lote)>0)
-									@foreach($lote as $item)
+								
+								    
+									
 									<tr>
-										<th scope="row">{{$item->idlote}}</th>
-										<td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
+										<th scope="row">17</th>
+										<td>Adepex Mini</td>
+										<td>21 noviembre 2018</td>
+										<td>Empleado 01</td>
 									</tr>
-							     	@endforeach
-								@endif	
+							     	
+			
+								
 								</tbody>
 							</table>
 						</div>

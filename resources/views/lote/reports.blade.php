@@ -37,11 +37,7 @@
 									</select>
 								</div>
 
-								<div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12">
-									<label for="producto"></label>
-									<select class=" form-control fd-control fd-input dynamic-mesure" name="producto"  data-dependent="producto" id="producto">
-									</select>
-								</div>
+								
 
 						<div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-12">
 							<div class="item1">
@@ -67,78 +63,3 @@
 @endsection
 
 
-@section('extrajscode')
-<script type="text/javascript">
-
-
-$('.dynamic-provider').change(function(){
-	 if ($(this).val()!= '')
-	 {
-		 var value = $(this).val();
-		 console.log(value);
-		 $.ajax({
-			 	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				url:"{{ route('lote.getproducts') }}",
-				method:"POST",
-				data:{ idproveedor:value },
-				success: function(result){
-					 $('#producto').html(result);
-				},
-				error: function (request, status, error){
-	        $.alert({
-	            columnClass: 'col-md-12',
-	            icon: 'fa fa-warning',
-	            title: 'Notificación del sistema',
-	            type: 'red',
-	            content: 'Lastimosamente no hay respuesta del sistema, contactar con el administrador del sistema producto',
-	            buttons: {
-	              ok: {
-	                  text: 'Mmm, esta bien llamaré al administrador',
-	                  btnClass: 'btn-red',
-	                  action: function(){}
-	              }
-	            }
-	        });
-	      }
-		 });
-	 }
-});
-
-$('#medidas').keypress (function(){
-	 $('.sender').removeAttr('hidden');
-});
-
-$('.dynamic-mesure').change(function(){
-	 if ($(this).val()!= '')
-	 {
-		 var value = $(this).val();
-		 $.ajax({
-			 	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				url:"{{ route('lote.getmesures') }}",
-				method:"POST",
-				data:{ idproducto:value },
-				
-				success: function(result){
-					 $('#medidas').html(result);
-				},
-				error: function (request, status, error){
-	        $.alert({
-	            columnClass: 'col-md-12',
-	            icon: 'fa fa-warning',
-	            title: 'Notificación del sistema',
-	            type: 'red',
-	            content: 'Lastimosamente no hay respuesta del sistema, contactar con el administrador del sistema',
-	            buttons: {
-	              ok: {
-	                  text: 'Mmm, esta bien llamaré al administrador',
-	                  btnClass: 'btn-red',
-	                  action: function(){}
-	              }
-	            }
-	        });
-	      }
-		 });
-	 }
-});
-</script>
-@endsection
