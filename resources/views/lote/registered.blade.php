@@ -21,25 +21,33 @@
 					@endif
 				</div>
 			</div>
-
+				
 					<div class=" text-right row col-12">
             <div class="text-right col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <div class="form-group col-12">
-  							<label for="proveedor"> Provedor:</label>
+  							<label for="lote"> Proveedor: {{$lote[0]}}</label>
+  							
+  								
+  							
   						</div>
   						<div class="form-group col-12">
-  	          	<label for="proveedor"> Producto:</label>
+  	          	<label for="proveedor"> Producto: {{$lote[1]}}</label>
   	          </div>
   						<div class="form-group col-12">
-  							<label for="proveedor"> ID Lote:</label>
+  							<label for="proveedor"> ID Lote:   {{$lote[2]}}</label>
+  							
   						</div>
   						<div class="form-group col-12 ">
-  	          	<<label for="proveedor"> Provedor:</label>
+  	          	<label for="proveedor"> Fecha: {{$lote[3]}}</label>
   	          </div>
             </div>
-            <div class=" text-left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <?php
+									$textoqr = "Proveedor: ".$lote[0]."\n"."Producto: ".$lote[1]. "\n". "ID Lote: ".$lote[2]. "\n"."Fecha: ".$lote[3] ;
+ 										 ?>
+              <div class=" text-left col-lg-6 col-md-6 col-sm-6 col-xs-12">
   						<div class="form-group col-12">
-                /*Acá va el QR*/
+                    {!! QrCode::size(100)->generate($textoqr); !!}
+    							
   						</div>
   					</div>
 
