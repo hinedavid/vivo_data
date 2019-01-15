@@ -45,6 +45,13 @@ class LoteController extends Controller
         return view('lote.delivery')->with('proveedores', $proveedores);
     }
     
+    public function reports()
+    {
+        $proveedores = Proveedor::all();
+        
+        return view('lote.reports')->with('proveedores', $proveedores);
+    }
+    
     public function store(LoteFormRequest $request)
     {
         $numerolote = $request->get('lote');
@@ -101,7 +108,36 @@ class LoteController extends Controller
     {
 
     }
+    
+    public function report_details(Request $request)
+    {
+      
+      
+         if($request)
+        {
+           $proveedor_id= $request->get('proveedor');
+           $lote= $request->get('lote');
+           //echo $proveedor_id;
+           //echo $lote;
+           $lotes = Lote::where('proveedor_id' , $proveedor_id)->where('numero_lote' , $lote)->get();
+           foreach ($lotes as $item){ echo $item->idlote;}
+          
+           
+          $productos = Producto::select('nombre')->where('idproducto',$lotes->first()->producto_id)->first();
+           echo $productos->nombre;
+           
+           
+          // $entrega= Entrega::select('loteid','cantidad','fecha','miembro_id')->where('lote_id',$lote->idlote)
+          // ->join('miembros', $entrega->miembro_id, '=', 'miembros.idproveedor');
+           
+        
+         
+           
+           
+          return view('lote.report_details')->with('lote', $lotes);
 
+        }
+    }
 
     public function ObtenerProducto(Request $request)
     {
