@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<br><br>
-			{!!Form::open(array('url'=>'lote','method'=>'POST','autocomplete'=>'off'))!!}
+			{!!Form::open(array('url'=>'lote','method'=>'POST','autocomplete'=>'on'))!!}
 					<div class="row">
 						<div class="form-group col-lg-3 col-md-5 col-sm-12 col-xs-12">
 							<div class=" row text-center">
@@ -69,7 +69,7 @@
 								</div>
 								<br><br>
 								<div class="form-group text-center col-lg-4 col-md-6 col-sm-12 col-xs-12" id="lote">
-									<input type="text" name="lote" class="form-control fd-input" placeholder=" Número de lote">'
+									<input type="text" name="lote" class="form-control fd-input" id="lotes" placeholder=" Número de lote">'
 								</div>
 								<div class="form-group text-center col-lg-4 col-md-4 col-sm-12 col-xs-12" id="medidas">
 								</div>
@@ -95,8 +95,6 @@
 
 @section('extrajscode')
 <script type="text/javascript">
-
-
 $('.dynamic-provider').change(function(){
 	 if ($(this).val()!= '')
 	 {
@@ -128,11 +126,9 @@ $('.dynamic-provider').change(function(){
 		 });
 	 }
 });
-
 $('#medidas').keypress (function(){
 	 $('.sender').removeAttr('hidden');
 });
-
 $('.dynamic-mesure').change(function(){
 	 if ($(this).val()!= '')
 	 {
@@ -163,6 +159,26 @@ $('.dynamic-mesure').change(function(){
 	      }
 		 });
 	 }
+});
+$( "form" ).submit(function( event ) {
+	if ('Producto'=== $('select[name="producto"] option:selected').text() || ''=== $("#lotes").val() || ''=== $("#cantidad").val()){
+		$.confirm({
+			columnClass: 'col-md-12',
+			icon: 'fa fa-warning',
+			title: '¡Tenemos un datos faltantes!',
+			content: 'Parece que tiene datos pendientes por rellenar. Por favor asegurese de rellenar todos los datos.',
+			type: 'red',
+			typeAnimated: true,
+			buttons: {
+				ok: {
+						text: 'Ok, completaré la información',
+						btnClass: 'btn-red',
+						action: function(){}
+				}
+			}
+		});
+		event.preventDefault();
+	}
 });
 </script>
 @endsection

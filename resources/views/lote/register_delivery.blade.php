@@ -11,7 +11,7 @@
 	<div class="main-content">
 		<div class="container">
 			<div class="row">
-				<div class="text-left col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				<div class="text-left col-8">
 					<h3>Registro de lote</h3>
 					@if (count($errors)>0)
 					<div class="alert alert-danger">
@@ -32,8 +32,8 @@
             </div>
           @endif
 				</div>
-				<div class="text-right col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<a href="{{ route('home') }}"><button class="btn fd-button col-sm-12 col-xs-12" type="reset">Cancelar</button></a>
+				<div class="text-right col-4">
+					<a href="{{ route('home') }}"><button class="btn fd-button btn-lg" type="reset">Cancelar</button></a>
 				</div>
 
 			</div>
@@ -86,19 +86,22 @@
 									<label for="recibe"></label>
 									<select name="recibe" class="form-control fd-input fd-control" id="recibe" hidden>
 										<option value="" disabled selected>Recibe</option>
-									  <option value="100">100</option>
-									  <option value="101">101</option>
-									  <option value="101">101</option>
-									  <option value="101">101</option>
+										@if (count($miembros)>0)
+											@foreach($miembros as $item)
+												<option value="{{$item->idmiembro}}">{{$item->nombre}}</option>
+											@endforeach
+										@endif
 									</select>
 								</div>
 							</div>
 						</div>
-						<div class="form-group col-lg-3 col-md-5 col-sm-12 col-xs-12">
-							<div class=" row text-center">
-								<label for="date"> </label>
-								<div class="input-group date df-datepicker" data-provide="datepicker">
-								    <input type="text" class="form-control" name="date" hidden>
+						<div class="segment text-right col-lg-3 col-md-5 col-sm-12 col-xs-12">
+							<div class=" text-right form-group col-12">
+								<div class=" row text-center">
+									<label for="date"> </label>
+									<div class="input-group date df-datepicker" data-provide="datepicker">
+									    <input type="text" class="form-control" name="date" hidden>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -200,5 +203,47 @@ $('.dynamic-lot').change(function(){
 		 });
 	 }
 });
+
+$( "form" ).submit(function( event ) {
+
+	if ($("#entregar").val() > $('.disponible').find('.badge').text())
+	{
+		$.confirm({
+			columnClass: 'col-6',
+			icon: 'fa fa-warning',
+			title: '¡Tenemos un detalle que no puede ser!',
+			content: 'Parece que se está haciendo una entrega de producto mayor a la que se tiene registrada en inventario.',
+			type: 'red',
+			typeAnimated: true,
+			buttons: {
+				ok: {
+						text: 'Ok, completaré la información',
+						btnClass: 'btn-red',
+						action: function(){}
+				}
+			}
+		});
+		event.preventDefault();
+	}
+	if ('Recibe'=== $('select[name="recibe"] option:selected').text() || 'Número de lote'=== $('select[name="lote"] option:selected').text() || ''=== $("#entregar").val()){
+		$.confirm({
+			columnClass: 'col-md-12',
+			icon: 'fa fa-warning',
+			title: '¡Tenemos un datos faltantes!',
+			content: 'Parece que tiene datos pendientes por rellenar. Por favor asegurese de rellenar todos los datos.',
+			type: 'red',
+			typeAnimated: true,
+			buttons: {
+				ok: {
+						text: 'Ok, completaré la información',
+						btnClass: 'btn-red',
+						action: function(){}
+				}
+			}
+		});
+		event.preventDefault();
+	}
+});
+
 </script>
 @endsection

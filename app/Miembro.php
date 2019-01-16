@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Miembro extends Model
 {
     protected $table = 'miembros';
-    protected $primarykey = "idmiembro";
+    protected $primarykey = 'idmiembro';
 
     public $timestamps = true;
 

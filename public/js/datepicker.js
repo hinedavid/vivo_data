@@ -1,7 +1,7 @@
 $('.df-datepicker').datepicker({
-    format: "dd/mm/yy",
+    format: "yyyy/mm/dd",
     weekStart: 15,
     todayBtn: "linked",
     language: "es",
     todayHighlight: true
-});
+}).datepicker("setDate",'now');

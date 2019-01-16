@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Producto;
 use App\Proveedor;
 use App\Entrega;
+use App\Lote;
+use App\Miembro;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -38,6 +40,11 @@ class AdministrativoController extends Controller
     {
         return view('administrativo.registrarProducto',["proveedores"=>Proveedor::all()]);
     }
+
+    public function registrarMiembro()
+    {
+        return view('administrativo.registrarMiembro');
+    }
     public function guardarProducto(Request $request)
     {
         $this->validate($request, [
@@ -65,6 +72,17 @@ class AdministrativoController extends Controller
         return redirect()->route('admin.index')->with('status','Se guardó exitosamente el proveedor: '.$proveedor->nombre);
     }
 
+    public function guardarMiembro(Request $request)
+    {
+        $this->validate($request, [
+            'miembro' => 'required',
+        ]);
+        $miembro = new Miembro;
+        $miembro->nombre=$request->get('miembro');
+        $miembro->save();
+        return redirect()->route('admin.index')->with('status','Se guardó exitosamente el miembro: '.$miembro->nombre);
+    }
+
     public function RegistrarEntrega(Request $request)
     {
       $this->validate($request, [
@@ -72,6 +90,13 @@ class AdministrativoController extends Controller
           'recibe' => 'required',
           'entregar' => 'required',
       ]);
+      $disponible = $request->session()->get('disponible');
+
+      if($disponible == $request->input('entregar')){
+        $lote = Lote::where('idlote',$request->input('lote'))
+                      ->update(['esta_disponible'=> 0]);
+      }
+
       $entrega = new Entrega;
       $entrega->fecha= $request->input('date');
       $entrega->cantidad=$request->input('entregar');
@@ -83,4 +108,3 @@ class AdministrativoController extends Controller
     }
 
 }
-
