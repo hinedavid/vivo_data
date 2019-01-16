@@ -40,10 +40,11 @@
 								
 
 						<div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="item1">
-								<label for="lote"></label>
-		          	<input type="text" name="lote" class="form-control fd-input" placeholder="Número de lote">
-							</div>
+							
+							<label for="lotes"></label>
+									<select class=" form-control fd-control fd-input dynamic-lot" name="lote" id="lote" hidden>
+							</select>
+						</div>
 							<br><br>
 							<div class="item2">
 								<button class="btn fd-button col-sm-12 col-xs-12" type="submit" >Consultar</button>
@@ -60,6 +61,45 @@
 <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/bootstrap-datepicker.es.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/datepicker.js') }}" type="text/javascript"></script>
+@endsection
+
+@section('extrajscode')
+<script type="text/javascript">
+
+
+$('.dynamic-provider').change(function(){
+	 if ($(this).val()!= '')
+	 {
+		 var value = $(this).val();
+		 $.ajax({
+			 	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url:"{{ route('lote.getreportelotes') }}",
+				method:"POST",
+				data:{ idproveedor:value },
+				success: function(result){
+					 $('#lote').removeAttr('hidden');
+					 $('#lote').html(result);
+				},
+				error: function (request, status, error){
+	        $.alert({
+	            columnClass: 'col-md-12',
+	            icon: 'fa fa-warning',
+	            title: 'Notificación del sistema',
+	            type: 'red',
+	            content: 'Lastimosamente no hay respuesta del sistema, contactar con el administrador del sistema',
+	            buttons: {
+	              ok: {
+	                  text: 'Mmm, esta bien llamaré al administrador',
+	                  btnClass: 'btn-red',
+	                  action: function(){}
+	              }
+	            }
+	        });
+	      }
+		 });
+	 }
+});
+</script>
 @endsection
 
 

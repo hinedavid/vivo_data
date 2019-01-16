@@ -32,6 +32,7 @@ Route::post('settings/store/delivery','AdministrativoController@RegistrarEntrega
 Route::post('lote/get/products','LoteController@ObtenerProducto')->name('lote.getproducts');
 Route::post('lote/get/mesures','LoteController@ObtenerMedidas')->name('lote.getmesures');
 Route::post('lote/get/lots','LoteController@ObtenerLotes')->name('lote.getlotes');
+Route::post('lote/get/reporte_lots','LoteController@ReporteObtenerLotes')->name('lote.getreportelotes');
 
 
 Route::post('lote/create/delivery','LoteController@ObtenerNombreProductoDeLote')->name('lote.getproductname');
@@ -50,6 +51,8 @@ Route::get('hine', function() {
 });
 
 Route::get('/registered/{id}', 'LoteController@registered')->name('registered');
+
+Route::get('/registeredpdf/{id}', 'LoteController@registeredpdf')->name('registeredpdf');
 
 Route::get('/report', 'LoteController@reports' );
 

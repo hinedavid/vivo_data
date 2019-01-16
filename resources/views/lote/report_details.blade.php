@@ -30,6 +30,7 @@
 									<tr>
 										<th scope="col">id</th>
 										<th scope="col">nombre del producto</th>
+										<th scope="col">cantidad</th>
 										<th scope="col">fecha de entrega</th>
 										<th scope="col">miembro</th>
 										
@@ -37,16 +38,17 @@
 								</thead>
 								<tbody>
 								
-								    
-									
-									<tr>
-										<th scope="row">17</th>
-										<td>Adepex Mini</td>
-										<td>21 noviembre 2018</td>
-										<td>Empleado 01</td>
-									</tr>
-							     	
-			
+								@if(count($lote)>0)
+									@foreach($lote as $item)    
+										<tr>
+											<th scope="row">{{$item->lote_id}}</th>
+											<td>{{$item->nombre}}</td>
+											<td>{{$item->CantidadEntregada}}</td>
+											<td>{{$item->fecha}}</td>
+											<td>{{$item->miembro}}</td>
+										</tr>
+							       @endforeach 	
+								@endif
 								
 								</tbody>
 							</table>

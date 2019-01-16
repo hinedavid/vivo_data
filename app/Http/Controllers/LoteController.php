@@ -14,6 +14,8 @@ use App\Http\Requests\LoteFormRequest;
 use DB;
 use Carbon\Carbon;
 use Debugbar;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoteController extends Controller
 {
@@ -91,8 +93,32 @@ class LoteController extends Controller
       $producto = Producto::where('idproducto', $lote->producto_id)->first();
       $proveedor = Proveedor::where('idproveedor', $lote->proveedor_id)->first();
       $data = array();
-      array_push($data,$proveedor->nombre,$producto->nombre, $lote->idlote, $lote->date);
+      array_push($data,$proveedor->nombre,$producto->nombre, $lote->idlote, $lote->date,$proveedor->idproveedor);
+      
+      // Obtiene el objeto del Usuario Autenticado
+$user = Auth::user();
+
+// Obtiene el ID del Usuario Autenticado
+$id = Auth::id();
+
+//echo $user->name;
+//echo $request->user();
+      
+      
+      
+      
       return view ("lote.registered")->with('lote', $data);
+    } 
+    
+    public function registeredpdf($id)
+    {
+      
+      $lote = Lote::where('idlote', $id)->first();
+      $producto = Producto::where('idproducto', $lote->producto_id)->first();
+      $proveedor = Proveedor::where('idproveedor', $lote->proveedor_id)->first();
+      $data = array();
+      array_push($data,$proveedor->nombre,$producto->nombre, $lote->idlote, $lote->date,$proveedor->idproveedor);
+      return view ("lote.registeredpdf")->with('lote', $data);
     } 
     
     public function edit($id)
@@ -126,21 +152,23 @@ class LoteController extends Controller
            //echo $proveedor_id;
            //echo $lote;
            $lotes = Lote::where('proveedor_id' , $proveedor_id)->where('numero_lote' , $lote)->get();
-           foreach ($lotes as $item){ echo $item->idlote;}
+           //foreach ($lotes as $item){ echo $item->idlote;}
           
            
         // $productos = Producto::select('nombre')->where('idproducto',$lotes->first()->producto_id)->first();
         //   echo $productos->nombre;
            
            
-          $entregas= DB::table('entregas')
-    ->select('entregas.lote_id','productos.nombre  as nombre', 'entregas.cantidad as CantidadEntregada', 'entregas.fecha as fecha')
+     $entregas= DB::table('entregas')
+     //->select('entregas.lote_id','entregas.cantidad as CantidadEntregada', 'entregas.fecha as fecha')
+    ->select('entregas.lote_id','productos.nombre  as nombre', 'entregas.cantidad as CantidadEntregada', 'entregas.fecha as fecha','miembros.nombre as miembro')
     ->join('lotes', 'lotes.idlote', '=', 'entregas.lote_id')
     ->join('productos', 'productos.idproducto', '=', 'entregas.producto_id')
-    ->where('entregas.lote_id', $lote)
+    ->join('miembros','entregas.miembro_id', '=', 'miembros.idmiembro')
+    ->where('lotes.numero_lote', $lote)
     ->get();
     
-    echo $entregas;
+   // echo $entregas;
            
         
           //$request->session()->put('Nombrecookie',$productos->nombre); 
@@ -214,6 +242,29 @@ class LoteController extends Controller
         foreach ($lotes as $lote)
         {
           $output .= '<option value="'.$lote->idlote.'">'.$lote->numero_lote.'</option>';
+        }
+        //retornamos el texto para guardarlo en el html
+        return  $output;
+      }
+    }
+    
+    public function ReporteObtenerLotes (Request $request)
+    {
+      //validamos que sea un llamado AJAX
+      if ($request->ajax())
+      {
+        $this->validate($request, [
+            'idproveedor' => 'required',
+        ]);
+        $proveedorID = $request->input('idproveedor');
+        $lotes= Lote::select(['idlote', 'numero_lote'])
+                      ->where('proveedor_id', $proveedorID)
+                      ->where('esta_disponible', 1)
+                      ->get();
+        $output = '<option value="" disabled selected>Número de lote</option>';
+        foreach ($lotes as $lote)
+        {
+          $output .= '<option value="'.$lote->numero_lote.'">'.$lote->numero_lote.'</option>';
         }
         //retornamos el texto para guardarlo en el html
         return  $output;
