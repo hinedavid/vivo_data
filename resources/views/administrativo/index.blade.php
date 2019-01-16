@@ -38,13 +38,13 @@
         <div class="text-center col-12">
 					<a href="{{ route('admin.register.provider') }}"><button class="btn fd-button col-sm-12 col-xs-12"> Agregar proveedor</button></a>
 					<a href="{{ route('admin.register.product') }}"><button class="btn fd-button col-sm-12 col-xs-12"> Agregar producto</button></a>
+					<a href="{{ route('admin.register.member') }}"><button class="btn fd-button col-sm-12 col-xs-12"> Agregar miembro</button></a>
 				</div>
       </div>
       <br><br>
 			<div class="row">
 
           @if(count($stocks) > 0)
-            {{ $stocks }}
 	        <div class="container">
 							<table class="table table-striped">
 								<thead>

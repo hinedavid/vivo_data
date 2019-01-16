@@ -8,10 +8,12 @@ use App\Lote;
 use App\Proveedor;
 use App\Producto;
 use App\Entrega;
+use App\Miembro;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\LoteFormRequest;
 use DB;
-
+use Carbon\Carbon;
+use Debugbar;
 
 class LoteController extends Controller
 {
@@ -157,7 +159,7 @@ class LoteController extends Controller
         ]);
         $proveedorID = $request->input('idproveedor');
         $productos= Producto::where('proveedor_id', $proveedorID)->get();
-        $output = '<option value="" disabled selected>Producto</option>';
+        $output = '<option value="0" disabled selected>Producto</option>';
         foreach ($productos as $producto)
         {
           $output .= '<option value="'.$producto->idproducto.'">'.$producto->nombre.'</option>';
@@ -178,7 +180,7 @@ class LoteController extends Controller
         $productoID = $request->input('idproducto');
         $producto = Producto::where('idproducto', $productoID)->get();
         $request->session()->put('Producto',$producto);
-        $output = '<input type="text" name="cantidad" class="form-control fd-input" placeholder=" Cantidad de '. $producto->first()->medida .'">';
+        $output = '<input type="text" name="cantidad" class="form-control fd-input" id="cantidad" placeholder=" Cantidad de '. $producto->first()->medida .'">';
         return  $output;
       }
     }
@@ -191,7 +193,8 @@ class LoteController extends Controller
             ->where('lotes.esta_disponible', 1)
             ->groupby('proveedores.idproveedor','proveedores.nombre')
             ->distinct()->get();
-      return view('lote.register_delivery')->with('proveedores', $proveedores);
+
+      return view('lote.register_delivery')->with(['proveedores'=> $proveedores, "miembros"=>Miembro::all()]);
     }
 
     public function ObtenerLotes (Request $request)
@@ -219,6 +222,7 @@ class LoteController extends Controller
 
     public function ObtenerNombreProductoDeLote (Request $request)
     {
+
       //validamos que sea un llamado AJAX
       if ($request->ajax())
       {
@@ -236,11 +240,8 @@ class LoteController extends Controller
               ->first();
 
         $disponibilidad = $lotes->cantidad - $entregas;
-
-
+        $request->session()->put('disponible', $disponibilidad);
         return response()->json(['nombre' => $lotes->nombre,'idproducto' => $lotes->idproducto,'medida'=> $lotes->medida, 'disponible'=>$disponibilidad]);
       }
     }
-
-
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lote extends Model
 {
     protected $table = 'lotes';
-    protected $primarykey = "idlote";
+    protected $primarykey = 'idlote';
     
     public $timestamps = true;
     
