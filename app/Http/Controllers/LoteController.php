@@ -86,7 +86,7 @@ class LoteController extends Controller
        return view ("lote.show",["lote"=>Lote::findOrFail($id)]);
     }
     
-    public function registered($id)
+    public function registered($id, Request $request)
     {
       
       $lote = Lote::where('idlote', $id)->first();
@@ -96,13 +96,13 @@ class LoteController extends Controller
       array_push($data,$proveedor->nombre,$producto->nombre, $lote->idlote, $lote->date,$proveedor->idproveedor);
       
       // Obtiene el objeto del Usuario Autenticado
-$user = Auth::user();
+//$user = Auth::user()->name;
 
 // Obtiene el ID del Usuario Autenticado
-$id = Auth::id();
+//$id = Auth::getAuthIdentifier();
 
-//echo $user->name;
-//echo $request->user();
+//echo $id;
+//echo $request->user()->name;
       
       
       

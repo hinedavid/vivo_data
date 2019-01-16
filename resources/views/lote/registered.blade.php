@@ -50,11 +50,11 @@
   	          	<label for="proveedor"> Fecha: {{$lote[3]}}</label>
   	          </div>
   	          <div class="form-group col-12 ">
-  	          	<label for="proveedor"> Recibe: {{}}</label>
+  	          	<label for="proveedor"> Recibe: {{Auth()->user()->name}}</label>
   	          </div>
             </div>
               <?php
-									$textoqr = "ID Proveedor: ".$lote[4]."\n"."Proveedor: ".$lote[0]."\n"."Producto: ".$lote[1]. "\n". "ID Lote: ".$lote[2]. "\n"."Fecha: ".$lote[3] ;
+									$textoqr = "ID Proveedor: ".$lote[4]."\n"."Proveedor: ".$lote[0]."\n"."Producto: ".$lote[1]. "\n". "ID Lote: ".$lote[2]. "\n"."Fecha: ".$lote[3]. "\n"."Recibe: ".Auth()->user()->name;
  										 ?>
               <div class=" text-left col-lg-6 col-md-6 col-sm-6 col-xs-12">
   						<div class="form-group col-12">
