@@ -18,9 +18,13 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/report') }}">Reportes</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.index') }}">Administrativo</a>
-        </li>
+        @if (Auth::user()->rol == 'admin')
+          {
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('admin.index') }}">Administrativo</a>
+            </li>
+          }
+        @endif
         <li class="nav-item">
           <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
           document.getElementById('logout-form').submit();">Salir

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Resgitro usuarios')
+@section('title', 'Registro usuarios')
 @section('content')
 <div class="container h-100">
   <div class="row h-100 justify-content-center align-items-center">
@@ -40,6 +40,16 @@
                                   @endif
                               </div>
                           </div>
+                          
+                          <div class="form-group row">
+          									<label for="rol" class="col-md-4 col-form-label text-md-right"> Rol del usuario </label>
+          									<div class="col-md-6">
+            									<select class=" form-control fd-control fd-input" name="rol" id="rol">
+            										<option value="user">Consultor</option>
+            										<option value="admin">Administrador</option>
+            									</select>
+          									</div>
+          								</div>
 
                           <div class="form-group row">
                               <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
